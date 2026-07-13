@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "563927650029",
+    "firebase_url": "https://pluscart-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "pluscart",
+    "storage_bucket": "pluscart.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563927650029:android:2d39dfebfacbc9be2486e4",
+        "android_client_info": {
+          "package_name": "com.example.pluscart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLV6lv96ec5PDBjO_HZAgcgHC3xWjyZeg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563927650029:android:5311f9ffd99168042486e4",
+        "android_client_info": {
+          "package_name": "com.mrjoo.plus_cart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLV6lv96ec5PDBjO_HZAgcgHC3xWjyZeg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
