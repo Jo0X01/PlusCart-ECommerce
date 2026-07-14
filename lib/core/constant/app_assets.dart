@@ -1,3 +1,9 @@
+
+abstract class AppImages {
+  static const String appLogoLight = "assets/images/app-logo.png";
+  static const String appLogoDark = "assets/images/app-logo.png";
+  static const String splashEffect = "assets/images/splash_effect.png";
+}
 abstract class AppIcons {
   static const String address = 'assets/icons/Address.svg';
   static const String appLogo = 'assets/icons/app-logo.svg';
