@@ -5,10 +5,13 @@ import 'package:plus_cart/features/onboarding/presentation/screens/splash_screen
 abstract class AppRoutes {
   static const splashScreen = "/splash";
   static const onBoardingScreen = "/onboarding";
+  static const loginScreen = "/login";
+  static const registerScreen = "/register";
 }
 
 final appRoutes = GoRouter(
   initialLocation: AppRoutes.splashScreen,
+  redirect: (context, state) => AppRoutes.splashScreen,
   routes: [
     GoRoute(
       path: AppRoutes.splashScreen,

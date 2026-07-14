@@ -7,6 +7,7 @@ abstract final class AppButtonStyles {
     foregroundColor: Colors.white,
     minimumSize: const Size(double.infinity, 52),
     elevation: 0,
+    shadowColor: Colors.transparent,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
   );
