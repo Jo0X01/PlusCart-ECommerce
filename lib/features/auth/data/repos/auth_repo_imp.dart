@@ -1,5 +1,4 @@
 
-
 import 'package:dartz/dartz.dart';
 import 'package:plus_cart/core/errors/failure.dart';
 import 'package:plus_cart/features/auth/domain/entities/user_entity.dart';
