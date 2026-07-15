@@ -10,5 +10,21 @@
         "**/.symlinks": true,
         "**/.plugin_symlinks": true
     },
+
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "**/build/**": true,
+        "**/.dart_tool/**": true,
+        "**/.symlinks/**": true,
+        "**/.plugin_symlinks/**": true
+    },
+
+    "search.exclude": {
+        "**/build": true,
+        "**/.dart_tool": true,
+        "**/.symlinks": true,
+        "**/.plugin_symlinks": true
+    },
+
     "hide-files.files": []
 }

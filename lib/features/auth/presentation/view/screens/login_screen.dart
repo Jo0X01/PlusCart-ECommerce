@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:plus_cart/core/constant/app_assets.dart';
+import 'package:plus_cart/core/constant/app_routes.dart';
 import 'package:plus_cart/core/theme/app_colors.dart';
 import 'package:plus_cart/core/theme/app_text_style.dart';
 import 'package:plus_cart/core/utils/validator.dart';
@@ -35,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -83,9 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         onChanged: (val) => setState(() {}),
                       ),
                       TappedTextCustomWidget(
-                        title: 'Forget Your Password? ',
-                        tappedTitle: 'Reset your password',
-                        onTap: () {},
+                        titles: {
+                          'Forget Your Password? ': null,
+                          'Reset your password': () {},
+                        },
                       ),
                     ],
                   ),
@@ -125,15 +128,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: TappedTextCustomWidget(
-          title: "Don`t have an account? ",
-          tappedTitle: "Join Us",
-          mainAxisAlignment: MainAxisAlignment.center,
-          onTap: () {},
-        ),
-        // bottomNavigationBar: ,
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: SafeArea(
+        child: TappedTextCustomWidget(
+          textAlign: TextAlign.center,
+          titles: {
+            "Don`t have an account? ": null,
+            "Join Us": () => context.go(AppRoutes.registerScreen),
+          },
+        ),
+      ),
+      // bottomNavigationBar: ,
     );
   }
 }

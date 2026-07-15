@@ -10,6 +10,9 @@ class PlusCartApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: appRoutes);
+    return MaterialApp.router(
+      routerConfig: appRoutes,
+      theme: ThemeData.light()
+    );
   }
 }
