@@ -6,7 +6,7 @@ import 'package:plus_cart/core/theme/app_colors.dart';
 class AppLoadingIndicator extends StatefulWidget {
   final Duration? duration;
   final Duration? timeout;
-  final VoidCallback? onTimeoutDone;
+  final Function(BuildContext context)? onTimeoutDone;
 
   const AppLoadingIndicator({
     super.key,
@@ -31,9 +31,13 @@ class _AppLoadingIndicatorState extends State<AppLoadingIndicator>
       duration: widget.duration ?? const Duration(milliseconds: 1200),
     )..repeat();
     if (widget.timeout != null) {
-      Future.delayed(widget.timeout ?? const Duration(seconds: 3), () {
-        if (mounted && widget.onTimeoutDone != null) {
-          widget.onTimeoutDone!();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          Future.delayed(widget.timeout ?? const Duration(seconds: 3), () {
+            if (mounted && widget.onTimeoutDone != null) {
+              widget.onTimeoutDone!(context);
+            }
+          });
         }
       });
     }

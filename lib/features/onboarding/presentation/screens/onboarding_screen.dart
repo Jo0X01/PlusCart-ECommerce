@@ -10,30 +10,32 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Image.asset(
-                AppImages.onBoardingBackground,
-                fit: BoxFit.fill,
-                width: double.infinity,
-                height: double.infinity,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Image.asset(
+                  AppImages.onBoardingBackground,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
               ),
             ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.10,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            child: ActionButtonCustomWidget(
-              title: "Get Started",
-              icon: AppIcons.arrowRight,
-              onTap: () => context.go(AppRoutes.loginScreen),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.10,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: ActionButtonCustomWidget(
+                title: "Get Started",
+                icon: AppIcons.arrowRight,
+                onTap: () => context.go(AppRoutes.loginScreen),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:plus_cart/features/auth/presentation/view/screens/login_screen.dart';
+import 'package:plus_cart/features/auth/presentation/view/screens/register_screen.dart';
 import 'package:plus_cart/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:plus_cart/features/onboarding/presentation/screens/splash_screen.dart';
 
@@ -11,7 +13,6 @@ abstract class AppRoutes {
 
 final appRoutes = GoRouter(
   initialLocation: AppRoutes.splashScreen,
-  redirect: (context, state) => AppRoutes.splashScreen,
   routes: [
     GoRoute(
       path: AppRoutes.splashScreen,
@@ -20,6 +21,14 @@ final appRoutes = GoRouter(
     GoRoute(
       path: AppRoutes.onBoardingScreen,
       builder: (context, state) => const OnboardingScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.loginScreen,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.registerScreen,
+      builder: (context, state) => const RegisterScreen(),
     ),
   ],
 );
