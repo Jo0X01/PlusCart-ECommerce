@@ -24,11 +24,11 @@ final appRoutes = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.loginScreen,
-      builder: (context, state) => const LoginScreen(),
+      builder: (context, state) => LoginScreen(),
     ),
     GoRoute(
       path: AppRoutes.registerScreen,
-      builder: (context, state) => const RegisterScreen(),
+      builder: (context, state) => RegisterScreen(),
     ),
   ],
 );
