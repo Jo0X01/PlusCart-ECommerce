@@ -5,6 +5,7 @@ abstract final class AppButtonStyles {
   static final primary = ElevatedButton.styleFrom(
     backgroundColor: AppColors.primary,
     foregroundColor: Colors.white,
+    padding: const EdgeInsets.all(18),
     minimumSize: const Size(double.infinity, 52),
     elevation: 0,
     shadowColor: Colors.transparent,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:plus_cart/core/constant/app_assets.dart';
+import 'package:plus_cart/core/theme/app_colors.dart';
 import 'package:plus_cart/core/theme/app_text_style.dart';
 import 'package:plus_cart/core/utils/validator.dart';
 import 'package:plus_cart/shared/widgets/action_button_custom_widget.dart';
@@ -33,30 +35,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(24),
             child: Column(
-              spacing: 5,
               crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 24,
               children: [
-                Text(
-                  "Login To Your Account",
-                  style: AppTextStyles.headlineLarge.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 8,
+                  children: [
+                    Text(
+                      "Login To Your Account",
+                      style: AppTextStyles.headlineLarge.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "It`s great to see you again",
+                      style: AppTextStyles.bodyMedium,
+                    ),
+                  ],
                 ),
-                Text(
-                  "It`s great to see you again",
-                  style: AppTextStyles.bodyMedium,
-                ),
-                const SizedBox(height: 10),
                 Form(
                   key: _formKey,
                   child: Column(
-                    spacing: 10,
+                    spacing: 16,
                     children: [
                       TextFormFieldWithLabelCustomWidget(
                         labelText: "Email",
@@ -72,28 +79,60 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: "Enter Your Password",
                         validator: Validator.validatePassword,
                         realtimeChange: true,
+                        isPassword: true,
                         onChanged: (val) => setState(() {}),
                       ),
-                      const SizedBox(height: 2),
                       TappedTextCustomWidget(
                         title: 'Forget Your Password? ',
                         tappedTitle: 'Reset your password',
                         onTap: () {},
                       ),
-                      ActionButtonCustomWidget(
-                        title: "Login",
-                        enable: _formKey.currentState?.validate() ?? false,
-                        onTap: () {
-                          setState(() {});
-                        },
-                      ),
                     ],
                   ),
+                ),
+                ActionButtonCustomWidget(
+                  title: "Login",
+                  enable: _formKey.currentState?.validate() ?? false,
+                  onTap: () {
+                    setState(() {});
+                  },
+                ),
+                Row(
+                  spacing: 4,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: Divider(color: AppColors.divider)),
+                    Text(
+                      "Or",
+                      style: AppTextStyles.label.copyWith(
+                        color: AppColors.divider,
+                        fontSize: 14,
+                      ),
+                    ),
+                    Expanded(child: Divider(color: AppColors.divider)),
+                  ],
+                ),
+                ActionOutlineButtonCustomWidget(
+                  title: "Login with Google",
+                  icon: AppIcons.googleLogo,
+                  prefixIcon: true,
+                  onTap: () {
+                    setState(() {});
+                  },
                 ),
               ],
             ),
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: TappedTextCustomWidget(
+          title: "Don`t have an account? ",
+          tappedTitle: "Join Us",
+          mainAxisAlignment: MainAxisAlignment.center,
+          onTap: () {},
+        ),
+        // bottomNavigationBar: ,
       ),
     );
   }

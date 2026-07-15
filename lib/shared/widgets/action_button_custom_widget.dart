@@ -21,7 +21,7 @@ class ActionButtonCustomWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: enable? onTap:null,
+      onPressed: enable ? onTap : null,
       style: AppButtonStyles.primary,
       child: Row(
         spacing: 20,
@@ -31,9 +31,59 @@ class ActionButtonCustomWidget extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: AppTextStyles.buttonBlack
+            style: AppTextStyles.buttonBlack,
           ),
           if (icon != null)
+            SvgPicture.asset(
+              icon!,
+              colorFilter: ColorFilter.mode(
+                AppColors.background,
+                BlendMode.srcIn,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class ActionOutlineButtonCustomWidget extends StatelessWidget {
+  const ActionOutlineButtonCustomWidget({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.icon,
+    this.enable = true,
+    this.prefixIcon = false,
+  });
+
+  final bool prefixIcon;
+  final bool enable;
+  final String title;
+  final String? icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: enable ? onTap : null,
+      style: AppButtonStyles.secondary,
+      child: Row(
+        spacing: 20,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (prefixIcon)
+            SvgPicture.asset(
+              icon!,
+              colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
+            ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.buttonLight,
+          ),
+          if (icon != null && !prefixIcon)
             SvgPicture.asset(
               icon!,
               colorFilter: ColorFilter.mode(

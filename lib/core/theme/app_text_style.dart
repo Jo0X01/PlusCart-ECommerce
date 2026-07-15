@@ -26,6 +26,11 @@ abstract final class AppTextStyles {
     color: AppColors.background,
   );
 
+  static const buttonLight = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+  );
   static const titleMedium = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
