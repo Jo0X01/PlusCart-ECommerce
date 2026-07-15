@@ -121,7 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: AppIcons.googleLogo,
                   prefixIcon: true,
                   onTap: () {
-                    setState(() {});
                   },
                 ),
               ],

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-abstract class Failure {
+class Failure {
   final String errorMsg;
   const Failure(this.errorMsg);
 }
@@ -68,6 +68,40 @@ class ServerFailure extends Failure {
       log(response.toString());
       log(statusCode.toString());
       return ServerFailure("Something went wrong. Please try again.");
+    }
+  }
+}
+
+
+class AuthFailure extends Failure {
+  const AuthFailure(super.message);
+
+  factory AuthFailure.fromMessage(String message) {
+    switch (message) {
+      case 'Invalid login credentials':
+        return const AuthFailure(
+          'Email or password is incorrect',
+        );
+
+      case 'Email not confirmed':
+        return const AuthFailure(
+          'Please verify your email before logging in',
+        );
+
+      case 'User already registered':
+        return const AuthFailure(
+          'This email is already registered',
+        );
+
+      case 'Password should be at least 6 characters':
+        return const AuthFailure(
+          'Password must be at least 6 characters',
+        );
+
+      default:
+        return const AuthFailure(
+          'Something went wrong. Please try again',
+        );
     }
   }
 }
