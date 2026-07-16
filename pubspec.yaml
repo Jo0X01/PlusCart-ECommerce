@@ -26,6 +26,7 @@ dependencies:
   firebase_analytics: ^12.4.4
   supabase_flutter: ^2.16.0
   flutter_dotenv: ^6.0.1
+  google_sign_in: ^7.2.0
 
 dev_dependencies:
   flutter_test:

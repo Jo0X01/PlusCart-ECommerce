@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:plus_cart/core/constant/app_assets.dart';
 import 'package:plus_cart/core/constant/app_routes.dart';
 import 'package:plus_cart/core/theme/app_colors.dart';
 import 'package:plus_cart/core/theme/app_text_style.dart';
 import 'package:plus_cart/core/utils/validator.dart';
+import 'package:plus_cart/features/auth/domain/entities/user_entity.dart';
+import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/shared/widgets/action_button_custom_widget.dart';
+import 'package:plus_cart/shared/widgets/app_loading_indicator.dart';
 import 'package:plus_cart/shared/widgets/tapped_text_custom_widget.dart';
 import 'package:plus_cart/shared/widgets/text_form_field_custom_widget.dart';
 
@@ -73,7 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: "Enter Your Email",
                         validator: Validator.validateEmail,
                         realtimeChange: true,
-                        onChanged: (val) => setState(() {}),
+                        onChanged: BlocProvider.of<LoginStateCubit>(
+                          context,
+                        ).onInput,
                       ),
                       TextFormFieldWithLabelCustomWidget(
                         labelText: "Password",
@@ -82,7 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: Validator.validatePassword,
                         realtimeChange: true,
                         isPassword: true,
-                        onChanged: (val) => setState(() {}),
+                        onChanged: BlocProvider.of<LoginStateCubit>(
+                          context,
+                        ).onInput,
                       ),
                       TappedTextCustomWidget(
                         titles: {
@@ -93,12 +101,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                ActionButtonCustomWidget(
-                  title: "Login",
-                  enable: _formKey.currentState?.validate() ?? false,
-                  onTap: () {
-                    setState(() {});
+                BlocListener<LoginStateCubit, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginLoadingState) {
+                      AppLoadingIndicator.show(
+                        context: context,
+                        text: "Loading ...",
+                        // size: 25,
+                        // strokeWidth: 2.5
+                      );
+                    }
                   },
+                  child: ActionButtonCustomWidget(
+                    title: "Login",
+                    enable: _formKey.currentState?.validate() ?? false,
+                    onTap: () {
+                      BlocProvider.of<LoginStateCubit>(context).login(
+                        UserEntity(
+                          email: _email.text,
+                          password: _password.text,
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 Row(
                   spacing: 4,
@@ -120,15 +145,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: "Login with Google",
                   icon: AppIcons.googleLogo,
                   prefixIcon: true,
-                  onTap: () {
-                  },
+                  onTap: BlocProvider.of<LoginStateCubit>(
+                    context,
+                  ).loginWithGoogle,
                 ),
               ],
             ),
           ),
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: SafeArea(
         child: TappedTextCustomWidget(
           textAlign: TextAlign.center,

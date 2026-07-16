@@ -2,11 +2,41 @@ import 'dart:math' as math show pi;
 
 import 'package:flutter/material.dart';
 import 'package:plus_cart/core/theme/app_colors.dart';
+import 'package:plus_cart/core/theme/app_text_style.dart';
 
 class AppLoadingIndicator extends StatefulWidget {
   final Duration? duration;
   final Duration? timeout;
   final Function(BuildContext context)? onTimeoutDone;
+
+  AppLoadingIndicator.show({
+    super.key,
+    required BuildContext context,
+    required String text,
+    this.duration,
+    this.timeout,
+    this.onTimeoutDone,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 15,
+            children: [
+              AppLoadingIndicator(
+                duration: duration,
+                timeout: timeout,
+                onTimeoutDone: onTimeoutDone,
+              ),
+              Text(text, style: AppTextStyles.headlineMedium),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   const AppLoadingIndicator({
     super.key,
