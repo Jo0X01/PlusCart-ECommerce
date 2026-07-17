@@ -10,6 +10,7 @@ import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_ca
 import 'package:plus_cart/features/auth/domain/usecases/register_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/register_with_google_use_case.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
+import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 
 void initAuthDependencies() {
   getIt.registerLazySingleton<RemoteAuthDataSource>(
@@ -31,5 +32,12 @@ void initAuthDependencies() {
       loginUseCase: getIt.get<LoginUseCase>(),
       checkLoginUseCase: getIt.get<CheckLoginUseCase>(),
     )..isLoggedIn(),
+  );
+
+  getIt.registerFactory(
+    () => RegisterStateCubit(
+      registerUseCase: getIt.get<RegisterUseCase>(),
+      registerWithGoogleUseCase: getIt.get<RegisterWithGoogleUseCase>()
+    )
   );
 }

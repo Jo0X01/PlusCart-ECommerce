@@ -4,6 +4,7 @@ import 'package:plus_cart/core/services/service_alocator.dart';
 import 'package:plus_cart/features/auth/presentation/view/screens/login_screen.dart';
 import 'package:plus_cart/features/auth/presentation/view/screens/register_screen.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
+import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 import 'package:plus_cart/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:plus_cart/features/onboarding/presentation/screens/splash_screen.dart';
 
@@ -31,12 +32,15 @@ final appRoutes = GoRouter(
       path: AppRoutes.loginScreen,
       builder: (context, state) => BlocProvider<LoginStateCubit>(
         create: (context) => getIt.get<LoginStateCubit>(),
-        child: LoginScreen(),
+        child: const LoginScreen(),
       ),
     ),
     GoRoute(
       path: AppRoutes.registerScreen,
-      builder: (context, state) => RegisterScreen(),
+      builder: (context, state) => BlocProvider<RegisterStateCubit>(
+        create: (context) => getIt.get<RegisterStateCubit>(),
+        child: const RegisterScreen(),
+      ),
     ),
   ],
 );
