@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final getIt = GetIt.instance;
 
-initSingleton() async {
+Future<void> initSingleton() async {
   await dotenv.load();
 
   await Supabase.initialize(

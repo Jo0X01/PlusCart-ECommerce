@@ -7,6 +7,8 @@ import 'package:plus_cart/features/auth/domain/repos/auth_repo.dart';
 import 'package:plus_cart/features/auth/domain/usecases/check_login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_case.dart';
+import 'package:plus_cart/features/auth/domain/usecases/register_use_case.dart';
+import 'package:plus_cart/features/auth/domain/usecases/register_with_google_use_case.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 
 void initAuthDependencies() {
@@ -20,6 +22,8 @@ void initAuthDependencies() {
   getIt.registerLazySingleton(() => LoginUseCase(getIt.get<AuthRepo>()));
   getIt.registerLazySingleton(() => CheckLoginUseCase(getIt.get<AuthRepo>()));
   getIt.registerLazySingleton(() => LoginWithGoogleUseCase(getIt.get<AuthRepo>()));
+  getIt.registerLazySingleton(() => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()));
+  getIt.registerLazySingleton(() => RegisterUseCase(getIt.get<AuthRepo>()));
 
   getIt.registerFactory(
     () => LoginStateCubit(
