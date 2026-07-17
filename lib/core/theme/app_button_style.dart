@@ -5,7 +5,7 @@ abstract final class AppButtonStyles {
   static final primary = ElevatedButton.styleFrom(
     backgroundColor: AppColors.primary,
     foregroundColor: Colors.white,
-    padding: const EdgeInsets.all(18),
+    padding: const EdgeInsets.all(22),
     minimumSize: const Size(double.infinity, 52),
     elevation: 0,
     shadowColor: Colors.transparent,
@@ -17,6 +17,7 @@ abstract final class AppButtonStyles {
     backgroundColor: AppColors.surface,
     foregroundColor: AppColors.textPrimary,
     minimumSize: const Size(double.infinity, 52),
+    padding: const EdgeInsets.all(22),
     elevation: 0,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     side: const BorderSide(color: AppColors.border),

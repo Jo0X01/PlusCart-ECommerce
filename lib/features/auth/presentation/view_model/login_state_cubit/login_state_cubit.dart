@@ -8,9 +8,12 @@ import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_ca
 part 'login_state.dart';
 
 class LoginStateCubit extends Cubit<LoginState> {
-  LoginUseCase loginUseCase;
-  LoginWithGoogleUseCase loginWithGoogleUseCase;
-  CheckLoginUseCase checkLoginUseCase;
+  final LoginUseCase loginUseCase;
+  final LoginWithGoogleUseCase loginWithGoogleUseCase;
+  final CheckLoginUseCase checkLoginUseCase;
+
+  bool isEmailValid = false;
+  bool isPasswordValid = false;
 
   LoginStateCubit({
     required this.loginUseCase,
@@ -22,13 +25,17 @@ class LoginStateCubit extends Cubit<LoginState> {
     final result = await checkLoginUseCase.call();
     result.fold(
       (error) => emit(LoginFailureState(error.errorMsg)),
-      (result) => emit(AlreadyLoggedInState(result)),
+      (result) => emit(
+        result == null ? LoginInitialState() : AlreadyLoggedInState(result),
+      ),
     );
   }
 
-  Future<void> login(UserEntity user) async {
+  Future<void> login({required String email, required String password}) async {
     emit(LoginLoadingState());
-    final result = await loginUseCase.call(user);
+    final result = await loginUseCase.call(
+      UserEntity(email: email, password: password),
+    );
     result.fold(
       (error) => emit(LoginFailureState(error.errorMsg)),
       (result) => emit(LoginSuccessState(result)),
@@ -44,7 +51,23 @@ class LoginStateCubit extends Cubit<LoginState> {
     );
   }
 
-  void onInput(String val) {
-    emit(CheckInputState());
+  void onEmailInput(bool valid) {
+    isEmailValid = valid;
+    emit(
+      CheckInputState(
+        isEmailValid: isEmailValid,
+        isPasswordValid: isPasswordValid,
+      ),
+    );
+  }
+
+  void onPasswordInput(bool valid) {
+    isPasswordValid = valid;
+    emit(
+      CheckInputState(
+        isEmailValid: isEmailValid,
+        isPasswordValid: isPasswordValid,
+      ),
+    );
   }
 }

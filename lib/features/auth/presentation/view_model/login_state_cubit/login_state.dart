@@ -6,14 +6,16 @@ sealed class LoginState {}
 final class LoginInitialState extends LoginState {}
 
 final class LoginLoadingState extends LoginState {}
-final class CheckInputState extends LoginState {}
+final class CheckInputState extends LoginState {
+  final bool isEmailValid;
+  final bool isPasswordValid;
+  CheckInputState({required this.isEmailValid, required this.isPasswordValid});
+}
 
 final class AlreadyLoggedInState extends LoginState {
   final UserEntity user;
   AlreadyLoggedInState(this.user);
 }
-
-final class NotLoggedInState extends LoginState {}
 
 final class LoginSuccessState extends LoginState {
   final UserEntity user;

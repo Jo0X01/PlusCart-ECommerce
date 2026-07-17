@@ -6,7 +6,7 @@ import 'package:plus_cart/core/theme/app_text_style.dart';
 
 class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
   const TextFormFieldWithLabelCustomWidget({
-    required this.controller,
+    this.controller,
     this.validator,
     this.enabled,
     this.hidden,
@@ -19,7 +19,7 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
     this.onChanged,
     this.onSubmit,
     this.realtimeChange,
-    this.errorWatcher,
+    this.validationChanged,
     super.key,
   });
 
@@ -28,9 +28,9 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
   final String? hintText;
   final bool obscureText;
   final bool isPassword;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
-  final void Function(bool?)? errorWatcher;
+  final void Function(bool)? validationChanged;
   final void Function(String value)? onChanged;
   final void Function()? onSubmit;
   final String? labelText;
@@ -48,7 +48,7 @@ class _TextFormFieldWithLabelCustomWidgetState
   late final FocusNode _focusNode;
   late final GlobalKey<FormFieldState<String>> _fieldKey;
   late bool _obscureText;
-  bool? _isError;
+  bool? _isValid;
 
   @override
   void initState() {
@@ -94,8 +94,8 @@ class _TextFormFieldWithLabelCustomWidgetState
           style: AppTextStyles.bodyMedium,
           validator: (val) {
             final errorMsg = widget.validator?.call(val);
-            setState(() => _isError = errorMsg == null);
-            widget.errorWatcher?.call(_isError);
+            setState(() => _isValid = errorMsg == null);
+            widget.validationChanged?.call(_isValid ?? false);
             return errorMsg;
           },
           onChanged: (value) {
@@ -110,7 +110,7 @@ class _TextFormFieldWithLabelCustomWidgetState
               spacing: 4,
               children: [
                 SvgPicture.asset(
-                  _isError == true ? AppIcons.check1 : AppIcons.warningCircle,
+                  _isValid == true ? AppIcons.check1 : AppIcons.warningCircle,
                   width: 15,
                   height: 15,
                   colorFilter: ColorFilter.mode(
@@ -139,10 +139,10 @@ class _TextFormFieldWithLabelCustomWidgetState
             suffixIcon: _getIcon(),
             contentPadding: const EdgeInsets.all(15),
             enabledBorder: _border(
-              color: _isError == true ? AppColors.success : AppColors.divider,
+              color: _isValid == true ? AppColors.success : AppColors.divider,
             ),
             focusedBorder: _border(
-              color: _isError == true ? AppColors.success : AppColors.divider,
+              color: _isValid == true ? AppColors.success : AppColors.divider,
             ),
             errorBorder: _border(color: AppColors.error),
             focusedErrorBorder: _border(color: AppColors.error),
@@ -176,14 +176,14 @@ class _TextFormFieldWithLabelCustomWidgetState
         ),
       );
     }
-    if (_isError != null) {
+    if (_isValid != null) {
       icons.add(
         SvgPicture.asset(
-          _isError == true ? AppIcons.check1 : AppIcons.warningCircle,
+          _isValid == true ? AppIcons.check1 : AppIcons.warningCircle,
           width: 25,
           height: 25,
           colorFilter: ColorFilter.mode(
-            _isError == true ? AppColors.success : AppColors.error,
+            _isValid == true ? AppColors.success : AppColors.error,
             BlendMode.srcIn,
           ),
         ),

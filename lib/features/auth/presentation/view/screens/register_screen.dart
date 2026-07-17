@@ -77,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Enter Your Full Name",
                         validator: Validator.validateName,
                         realtimeChange: true,
-                        onChanged: (val) => setState(() {}),
+                        // onChanged: (val) => setState(() {}),
                       ),
                       TextFormFieldWithLabelCustomWidget(
                         labelText: "Email",
@@ -85,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Enter Your Email",
                         validator: Validator.validateEmail,
                         realtimeChange: true,
-                        onChanged: (val) => setState(() {}),
+                        // onChanged: (val) => setState(() {}),
                       ),
                       TextFormFieldWithLabelCustomWidget(
                         labelText: "Password",
@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         validator: Validator.validatePassword,
                         realtimeChange: true,
                         isPassword: true,
-                        onChanged: (val) => setState(() {}),
+                        // onChanged: (val) => setState(() {}),
                       ),
                       TappedTextCustomWidget(
                         titles: {

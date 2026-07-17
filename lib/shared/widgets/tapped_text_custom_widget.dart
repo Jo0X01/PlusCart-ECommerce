@@ -32,6 +32,9 @@ class TappedTextCustomWidget extends StatelessWidget {
     );
   }
 
+  TapGestureRecognizer? _handleOnTap(VoidCallback? onTap) =>
+      onTap == null ? null : (TapGestureRecognizer()..onTap = onTap);
+
   TextSpan _buildText({
     required String title,
     VoidCallback? onTap,
@@ -42,7 +45,7 @@ class TappedTextCustomWidget extends StatelessWidget {
       style: AppTextStyles.label.copyWith(
         decoration: onTap == null ? null : TextDecoration.underline,
       ),
-      recognizer: TapGestureRecognizer()..onTap = onTap,
+      recognizer: _handleOnTap(onTap),
       children: children,
     );
   }

@@ -12,6 +12,8 @@ abstract class AppRoutes {
   static const onBoardingScreen = "/onboarding";
   static const loginScreen = "/login";
   static const registerScreen = "/register";
+  static const frogetPasswordScreen = "/forget-password";
+  static const homeScreen = "/home-screen";
 }
 
 final appRoutes = GoRouter(

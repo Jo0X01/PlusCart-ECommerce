@@ -40,8 +40,11 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> getCurrentUser() async {
+  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
     try {
+      if (!(await remoteAuthDataSource.isAlreadyAuth())) {
+        return right(null);
+      }
       final result = await remoteAuthDataSource.getCurrentUser();
       return right(result);
     } catch (e) {
