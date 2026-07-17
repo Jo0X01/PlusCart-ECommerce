@@ -19,7 +19,7 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
     this.onChanged,
     this.onSubmit,
     this.realtimeChange,
-    this.validationChanged,
+    this.onValidationChanged,
     super.key,
   });
 
@@ -30,7 +30,7 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
   final bool isPassword;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
-  final void Function(bool)? validationChanged;
+  final void Function(bool)? onValidationChanged;
   final void Function(String value)? onChanged;
   final void Function()? onSubmit;
   final String? labelText;
@@ -95,7 +95,7 @@ class _TextFormFieldWithLabelCustomWidgetState
           validator: (val) {
             final errorMsg = widget.validator?.call(val);
             setState(() => _isValid = errorMsg == null);
-            widget.validationChanged?.call(_isValid ?? false);
+            widget.onValidationChanged?.call(_isValid ?? false);
             return errorMsg;
           },
           onChanged: (value) {

@@ -1,4 +1,4 @@
-import 'package:plus_cart/core/services/service_alocator.dart';
+import 'package:plus_cart/core/services/service_locator.dart';
 
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source.dart';
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source_imp.dart';
@@ -22,8 +22,12 @@ void initAuthDependencies() {
 
   getIt.registerLazySingleton(() => LoginUseCase(getIt.get<AuthRepo>()));
   getIt.registerLazySingleton(() => CheckLoginUseCase(getIt.get<AuthRepo>()));
-  getIt.registerLazySingleton(() => LoginWithGoogleUseCase(getIt.get<AuthRepo>()));
-  getIt.registerLazySingleton(() => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()));
+  getIt.registerLazySingleton(
+    () => LoginWithGoogleUseCase(getIt.get<AuthRepo>()),
+  );
+  getIt.registerLazySingleton(
+    () => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()),
+  );
   getIt.registerLazySingleton(() => RegisterUseCase(getIt.get<AuthRepo>()));
 
   getIt.registerFactory(
@@ -37,7 +41,7 @@ void initAuthDependencies() {
   getIt.registerFactory(
     () => RegisterStateCubit(
       registerUseCase: getIt.get<RegisterUseCase>(),
-      registerWithGoogleUseCase: getIt.get<RegisterWithGoogleUseCase>()
-    )
+      registerWithGoogleUseCase: getIt.get<RegisterWithGoogleUseCase>(),
+    ),
   );
 }

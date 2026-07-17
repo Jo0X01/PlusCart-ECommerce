@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:plus_cart/core/services/service_alocator.dart';
+import 'package:plus_cart/core/services/service_locator.dart';
 import 'package:plus_cart/features/auth/presentation/view/screens/login_screen.dart';
 import 'package:plus_cart/features/auth/presentation/view/screens/register_screen.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';

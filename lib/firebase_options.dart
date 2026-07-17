@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,21 +46,32 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBVikunSiPgKggQfr7Jhmcn3R-Gqp_6nA8',
+    appId: '1:563927650029:web:8499a6301154ccd82486e4',
+    messagingSenderId: '563927650029',
+    projectId: 'pluscart',
+    authDomain: 'pluscart.firebaseapp.com',
+    databaseURL: 'https://pluscart-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'pluscart.firebasestorage.app',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCLV6lv96ec5PDBjO_HZAgcgHC3xWjyZeg',
-    appId: '1:563927650029:android:2d39dfebfacbc9be2486e4',
+    appId: '1:563927650029:android:a0398177dd6e98ae2486e4',
     messagingSenderId: '563927650029',
     projectId: 'pluscart',
     databaseURL: 'https://pluscart-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'pluscart.firebasestorage.app',
   );
+
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCQPm9SFfwnRHsnFpOY3FzjCU1744MSbV8',
-    appId: '1:563927650029:ios:f12c6c028e74e1882486e4',
+    appId: '1:563927650029:ios:d44002900897c1182486e4',
     messagingSenderId: '563927650029',
     projectId: 'pluscart',
     databaseURL: 'https://pluscart-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'pluscart.firebasestorage.app',
-    iosBundleId: 'com.example.pluscart',
+    iosBundleId: 'com.mrjoo.pluscart',
   );
 }

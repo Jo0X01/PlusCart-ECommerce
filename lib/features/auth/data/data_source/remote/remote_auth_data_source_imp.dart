@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source.dart';
 import 'package:plus_cart/features/auth/data/models/user_model.dart';
@@ -61,6 +63,7 @@ class RemoteAuthDataSourceImp implements RemoteAuthDataSource {
       data: {"fullName": fullName, "avatar": null},
       password: password,
     );
+    log(result.toString());
     return UserModel.fromSupabase(result.user);
   }
 }

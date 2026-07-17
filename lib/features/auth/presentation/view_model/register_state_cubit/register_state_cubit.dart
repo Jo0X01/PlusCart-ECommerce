@@ -60,7 +60,7 @@ class RegisterStateCubit extends Cubit<RegisterState> {
 
   void _emitInputState() {
     emit(
-      CheckInputState(
+      RegisterCheckInputState(
         isEmailValid: isEmailValid,
         isPasswordValid: isPasswordValid,
         isFullNameValid: isFullNameValid,

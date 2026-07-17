@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
           controller: email,
           validator: Validator.validateEmail,
           realtimeChange: true,
-          validationChanged: (val) =>
+          onValidationChanged: (val) =>
               context.read<LoginStateCubit>().onEmailInput(val),
         ),
         TextFormFieldWithLabelCustomWidget(
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
           validator: Validator.validatePassword,
           realtimeChange: true,
           isPassword: true,
-          validationChanged: context.read<LoginStateCubit>().onPasswordInput,
+          onValidationChanged: context.read<LoginStateCubit>().onPasswordInput,
         ),
         TappedTextCustomWidget(
           titles: {

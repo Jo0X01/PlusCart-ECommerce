@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:plus_cart/core/constant/app_assets.dart';
 import 'package:plus_cart/core/constant/app_routes.dart';
-import 'package:plus_cart/core/theme/app_colors.dart';
-import 'package:plus_cart/core/theme/app_text_style.dart';
+import 'package:plus_cart/core/dialogs/app_dialogs.dart';
 import 'package:plus_cart/core/utils/validator.dart';
+import 'package:plus_cart/features/auth/presentation/view/widgets/bottom_navigate_text_custom_widget.dart';
 import 'package:plus_cart/features/auth/presentation/view/widgets/header_info_custom_widget.dart';
 import 'package:plus_cart/features/auth/presentation/view/widgets/or_divider_custom_widget.dart';
+import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 import 'package:plus_cart/shared/widgets/action_button_custom_widget.dart';
 import 'package:plus_cart/shared/widgets/tapped_text_custom_widget.dart';
 import 'package:plus_cart/shared/widgets/text_form_field_custom_widget.dart';
@@ -55,35 +57,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   subTitle: "Let’s create your account.",
                 ),
                 registerForm(),
-                ActionButtonCustomWidget(
-                  title: "Sign Up",
-                  // enable: _formKey.currentState?.validate() ?? false,
-                  onTap: () {
-                    setState(() {});
+                BlocConsumer<RegisterStateCubit, RegisterState>(
+                  listener: (context, state) {
+                    if (state is RegisterFailureState) {
+                      AppDialogs.showSnackBar(context, msg: state.msg);
+                    } else if (state is RegisterSuccessState) {
+                      AppDialogs.showSnackBar(
+                        context,
+                        msg: "User Registered, Login Now",
+                      );
+                      context.go(AppRoutes.loginScreen);
+                    }
                   },
+                  builder: (context, state) => ActionButtonCustomWidget(
+                    title: "Sign Up",
+                    isLoading: state is RegisterLoadingState,
+                    enable: state is RegisterCheckInputState && state.isValid,
+                    onTap: () {
+                      context.read<RegisterStateCubit>().register(
+                        fullName: _fullName.text,
+                        email: _email.text,
+                        password: _password.text,
+                      );
+                    },
+                  ),
                 ),
                 const OrDividerCustomWidget(),
-                ActionOutlineButtonCustomWidget(
-                  title: "SignUp with Google",
-                  icon: AppIcons.googleLogo,
-                  prefixIcon: true,
-                  onTap: () {
-                    setState(() {});
-                  },
+                BlocBuilder<RegisterStateCubit, RegisterState>(
+                  builder: (context, state) => ActionOutlineButtonCustomWidget(
+                    title: "SignUp with Google",
+                    icon: AppIcons.googleLogo,
+                    prefixIcon: true,
+                    isLoading: state is RegisterLoadingState,
+                    onTap: () {
+                      context.read<RegisterStateCubit>().registerWithGoogle();
+                    },
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: TappedTextCustomWidget(
-          textAlign: TextAlign.center,
-          titles: {
-            "have an account? ": null,
-            "Login": () => context.go(AppRoutes.loginScreen),
-          },
-        ),
+      bottomNavigationBar: BottomNavigateTextCustomWidget(
+        titles: {
+          "have an account? ": null,
+          "Login": () => context.go(AppRoutes.loginScreen),
+        },
       ),
 
       // bottomNavigationBar: ,
@@ -100,7 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: "Enter Your Full Name",
           validator: Validator.validateName,
           realtimeChange: true,
-          // onChanged: (val) => setState(() {}),
+          onValidationChanged: context
+              .read<RegisterStateCubit>()
+              .onFullNameInput,
         ),
         TextFormFieldWithLabelCustomWidget(
           labelText: "Email",
@@ -108,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: "Enter Your Email",
           validator: Validator.validateEmail,
           realtimeChange: true,
-          // onChanged: (val) => setState(() {}),
+          onValidationChanged: context.read<RegisterStateCubit>().onEmailInput,
         ),
         TextFormFieldWithLabelCustomWidget(
           labelText: "Password",
@@ -117,7 +139,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           validator: Validator.validatePassword,
           realtimeChange: true,
           isPassword: true,
-          // onChanged: (val) => setState(() {}),
+          onValidationChanged: context
+              .read<RegisterStateCubit>()
+              .onPasswordInput,
         ),
         TappedTextCustomWidget(
           titles: {

@@ -7,11 +7,11 @@ final class RegisterInitialState extends RegisterState {}
 
 final class RegisterLoadingState extends RegisterState {}
 
-final class CheckInputState extends RegisterState {
+final class RegisterCheckInputState extends RegisterState {
   final bool isEmailValid;
   final bool isPasswordValid;
   final bool isFullNameValid;
-  CheckInputState({
+  RegisterCheckInputState({
     required this.isEmailValid,
     required this.isPasswordValid,
     required this.isFullNameValid,
