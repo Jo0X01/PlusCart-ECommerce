@@ -1,5 +1,6 @@
-import 'package:plus_cart/core/services/service_locator.dart';
-
+import 'package:get_it/get_it.dart';
+import 'package:plus_cart/core/services/google_sign_in_service.dart';
+import 'package:plus_cart/core/services/supabase_service.dart';
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source.dart';
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source_imp.dart';
 import 'package:plus_cart/features/auth/data/repos/auth_repo_imp.dart';
@@ -12,9 +13,12 @@ import 'package:plus_cart/features/auth/domain/usecases/register_with_google_use
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 
-void initAuthDependencies() {
+void initAuthDependencies(GetIt getIt) {
   getIt.registerLazySingleton<RemoteAuthDataSource>(
-    () => RemoteAuthDataSourceImp(),
+    () => RemoteAuthDataSourceImp(
+      supabaseService: getIt.get<SupabaseService>(),
+      googleSignInService: getIt.get<GoogleSignInService>(),
+    ),
   );
   getIt.registerLazySingleton<AuthRepo>(
     () => AuthRepoImp(remoteAuthDataSource: getIt.get<RemoteAuthDataSource>()),

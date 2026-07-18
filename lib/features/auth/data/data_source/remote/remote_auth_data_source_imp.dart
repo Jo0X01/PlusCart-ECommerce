@@ -1,69 +1,71 @@
-import 'dart:developer';
-
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:plus_cart/core/services/google_sign_in_service.dart';
+import 'package:plus_cart/core/services/supabase_service.dart';
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source.dart';
-import 'package:plus_cart/features/auth/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RemoteAuthDataSourceImp implements RemoteAuthDataSource {
+  final SupabaseService supabaseService;
+  final GoogleSignInService googleSignInService;
+
+  RemoteAuthDataSourceImp({
+    required this.supabaseService,
+    required this.googleSignInService,
+  });
+
   @override
-  Future<UserModel> login({
-    required String email,
-    required String password,
-  }) async {
-    final result = await Supabase.instance.client.auth.signInWithPassword(
+  Future<User?> login({required String email, required String password}) async {
+    final result = await supabaseService.auth.signInWithPassword(
       email: email,
       password: password,
     );
-    return UserModel.fromSupabase(result.user);
+    return result.user;
   }
 
   @override
   Future<bool> isAlreadyAuth() async {
-    return Supabase.instance.client.auth.currentUser != null;
+    return supabaseService.auth.currentUser != null;
   }
 
   @override
-  Future<UserModel> getCurrentUser() async {
-    return UserModel.fromSupabase(Supabase.instance.client.auth.currentUser);
+  Future<User?> getCurrentUser() async {
+    return supabaseService.auth.currentUser;
   }
 
   @override
-  Future<UserModel> loginWithGoogle() async {
-    final googleUser = await GoogleSignIn.instance.authenticate();
+  Future<User?> loginWithGoogle() async {
+    final googleUser = await googleSignInService.auth();
     final idToken = googleUser.authentication.idToken;
     if (idToken == null) throw 'No ID token found.';
-    await Supabase.instance.client.auth.signInWithIdToken(
+    await supabaseService.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
     );
-    return UserModel.fromSupabase(Supabase.instance.client.auth.currentUser);
+    return supabaseService.auth.currentUser;
   }
 
   @override
-  Future<UserModel> registerWithGoogle() async {
-    final googleUser = await GoogleSignIn.instance.authenticate();
+  Future<User?> registerWithGoogle() async {
+    final googleUser = await googleSignInService.auth();
     final idToken = googleUser.authentication.idToken;
     if (idToken == null) throw 'No ID token found.';
-    await Supabase.instance.client.auth.signInWithIdToken(
+    await supabaseService.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
     );
-    return UserModel.fromSupabase(Supabase.instance.client.auth.currentUser);
+    return supabaseService.auth.currentUser;
   }
 
   @override
-  Future<UserModel> register({
+  Future<User?> register({
     required String email,
     required String fullName,
     required String password,
   }) async {
-    final result = await Supabase.instance.client.auth.signUp(
+    final result = await supabaseService.auth.signUp(
       email: email,
       data: {"fullName": fullName, "avatar": null},
       password: password,
     );
-    log(result.toString());
-    return UserModel.fromSupabase(result.user);
+    return result.user;
   }
 }

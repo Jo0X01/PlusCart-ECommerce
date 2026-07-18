@@ -1,9 +1,23 @@
 class UserEntity {
-  final String? id;
-  final String? fullName;
-  final String? email;
-  final String? password;
-  final String? avatar;
+  String? id;
+  String? email;
+  String? phone;
+  String? fullName;
+  String? avatar;
+  String? password;
+  bool? emailVerified;
+  bool? phoneVerified;
+  List<String?> providers;
 
-  UserEntity({this.fullName, this.email, this.password, this.id, this.avatar});
+  UserEntity({
+    this.id,
+    this.email,
+    this.phone,
+    this.fullName,
+    this.password,
+    this.avatar,
+    this.emailVerified,
+    this.phoneVerified,
+    this.providers = const [],
+  });
 }
