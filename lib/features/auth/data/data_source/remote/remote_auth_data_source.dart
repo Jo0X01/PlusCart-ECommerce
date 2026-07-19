@@ -1,9 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class RemoteAuthDataSource {
-  Future<bool> isAlreadyAuth();
-  Future<User?> getCurrentUser();
-
   Future<User?> login({required String email, required String password});
   Future<User?> loginWithGoogle();
 

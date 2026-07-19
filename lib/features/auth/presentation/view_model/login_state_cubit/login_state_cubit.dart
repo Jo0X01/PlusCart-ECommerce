@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plus_cart/features/auth/domain/entities/user_entity.dart';
-import 'package:plus_cart/features/auth/domain/usecases/check_login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_case.dart';
 
@@ -10,7 +9,6 @@ part 'login_state.dart';
 class LoginStateCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   final LoginWithGoogleUseCase loginWithGoogleUseCase;
-  final CheckLoginUseCase checkLoginUseCase;
 
   bool isEmailValid = false;
   bool isPasswordValid = false;
@@ -18,7 +16,6 @@ class LoginStateCubit extends Cubit<LoginState> {
   LoginStateCubit({
     required this.loginUseCase,
     required this.loginWithGoogleUseCase,
-    required this.checkLoginUseCase,
   }) : super(LoginInitialState());
 
   Future<void> login({required String email, required String password}) async {

@@ -22,16 +22,6 @@ class RemoteAuthDataSourceImp implements RemoteAuthDataSource {
   }
 
   @override
-  Future<bool> isAlreadyAuth() async {
-    return supabaseService.auth.currentUser != null;
-  }
-
-  @override
-  Future<User?> getCurrentUser() async {
-    return supabaseService.auth.currentUser;
-  }
-
-  @override
   Future<User?> loginWithGoogle() async {
     final googleUser = await googleSignInService.auth();
     final idToken = googleUser.authentication.idToken;

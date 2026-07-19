@@ -5,7 +5,6 @@ import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data
 import 'package:plus_cart/features/auth/data/data_source/remote/remote_auth_data_source_imp.dart';
 import 'package:plus_cart/features/auth/data/repos/auth_repo_imp.dart';
 import 'package:plus_cart/features/auth/domain/repos/auth_repo.dart';
-import 'package:plus_cart/features/auth/domain/usecases/check_login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/register_use_case.dart';
@@ -27,7 +26,6 @@ void initAuthDependencies(GetIt getIt) {
   getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImp(remoteAuthDataSource: getIt.get<RemoteAuthDataSource>()),);
 
   getIt.registerLazySingleton(() => LoginUseCase(getIt.get<AuthRepo>()));
-  getIt.registerLazySingleton(() => CheckLoginUseCase(getIt.get<AuthRepo>()));
   getIt.registerLazySingleton(() => LoginWithGoogleUseCase(getIt.get<AuthRepo>()),);
   getIt.registerLazySingleton(() => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()),);
   getIt.registerLazySingleton(() => RegisterUseCase(getIt.get<AuthRepo>()));
@@ -39,7 +37,6 @@ void initAuthDependencies(GetIt getIt) {
     () => LoginStateCubit(
       loginWithGoogleUseCase: getIt.get<LoginWithGoogleUseCase>(),
       loginUseCase: getIt.get<LoginUseCase>(),
-      checkLoginUseCase: getIt.get<CheckLoginUseCase>(),
     ),
   );
 

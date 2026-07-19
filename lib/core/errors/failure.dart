@@ -146,15 +146,12 @@ class SupabaseFailure extends Failure {
     switch (exception.code) {
       case '23505': // unique_violation
         return SupabaseFailure("This value already exists.");
-
       case '23503': // foreign_key_violation
         return SupabaseFailure(
           "This action references data that doesn't exist.",
         );
-
       case '42501': // insufficient_privilege (RLS policy block)
         return SupabaseFailure("You don't have permission to do this.");
-
       default:
         log(
           "Unhandled PostgrestException code: ${exception.code}, message: ${exception.message}",

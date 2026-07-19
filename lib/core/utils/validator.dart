@@ -4,10 +4,6 @@ const String passwordRegexString = r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@]{6,}$';
 const String urlRegexString = r'^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$';
 
 abstract class Validator {
-  // ---------------------------------------------------------------------------
-  // Special validators
-  // ---------------------------------------------------------------------------
-
   static String? validateIgnoreEmpty(
     String? value,
     String? Function(String?) validateCallback,

@@ -40,22 +40,6 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
-    try {
-      if (!(await remoteAuthDataSource.isAlreadyAuth())) {
-        return right(null);
-      }
-      final result = await remoteAuthDataSource.getCurrentUser();
-      return right(userToEntityMapper(result!));
-    } catch (e) {
-      if (SupabaseFailure.isException(e)) {
-        return left(SupabaseFailure.fromException(e));
-      }
-      return left(SupabaseFailure(e.toString()));
-    }
-  }
-
-  @override
   Future<Either<Failure, UserEntity>> register({
     required UserEntity user,
   }) async {
