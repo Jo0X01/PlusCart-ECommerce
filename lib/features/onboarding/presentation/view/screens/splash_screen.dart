@@ -38,8 +38,9 @@ class SplashScreen extends StatelessWidget {
                   height: 32,
                   child: AppLoadingIndicator(
                     timeout: Duration(seconds: 3),
-                    onTimeoutDone: (context) =>
-                        context.go(AppRoutes.onBoardingScreen),
+                    onTimeoutDone: (context){
+                      context.go(AppRoutes.onBoardingScreen);
+                    }
                   ),
                 ),
               ),

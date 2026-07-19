@@ -7,7 +7,7 @@ import 'package:plus_cart/core/services/google_sign_in_service.dart';
 import 'package:plus_cart/core/services/supabase_service.dart';
 import 'package:plus_cart/features/auth/di/auth_injection.dart';
 import 'package:plus_cart/firebase_options.dart';
-import 'package:plus_cart/simple_bloc_observer.dart';
+import 'package:plus_cart/core/bloc/simple_bloc_observer.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final getIt = GetIt.instance;
@@ -22,8 +22,8 @@ Future<void> appInit() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   await supabaseService.init(
-    url: dotenv.env['SUPABASE_URL']!,
     publishableKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: dotenv.env['SUPABASE_URL']!,
   );
   await googleSignInService.init(
     clientId: dotenv.env['GOOGLE_WEB_OAUTH_CLIENT_ID']!,

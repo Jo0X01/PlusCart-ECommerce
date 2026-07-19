@@ -3,10 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:plus_cart/core/app/app_init.dart';
 import 'package:plus_cart/features/auth/presentation/view/screens/login_screen.dart';
 import 'package:plus_cart/features/auth/presentation/view/screens/register_screen.dart';
+import 'package:plus_cart/features/auth/presentation/view/screens/reset_password_screen.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
-import 'package:plus_cart/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:plus_cart/features/onboarding/presentation/screens/splash_screen.dart';
+import 'package:plus_cart/features/auth/presentation/view_model/reset_password_cubit/reset_password_cubit.dart';
+import 'package:plus_cart/features/onboarding/presentation/view/screens/onboarding_screen.dart';
+import 'package:plus_cart/features/onboarding/presentation/view/screens/splash_screen.dart';
 
 abstract class AppRoutes {
   static const splashScreen = "/splash";
@@ -40,6 +42,13 @@ final appRoutes = GoRouter(
       builder: (context, state) => BlocProvider<RegisterStateCubit>(
         create: (context) => getIt.get<RegisterStateCubit>(),
         child: const RegisterScreen(),
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.frogetPasswordScreen,
+      builder: (context, state) => BlocProvider<ResetPasswordCubit>(
+        create: (context) => getIt.get<ResetPasswordCubit>(),
+        child: const ResetPasswordScreen(),
       ),
     ),
   ],

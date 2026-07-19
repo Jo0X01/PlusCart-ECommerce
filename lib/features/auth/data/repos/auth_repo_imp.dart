@@ -19,7 +19,7 @@ class AuthRepoImp implements AuthRepo {
       );
       return right(userToEntityMapper(result!));
     } catch (e) {
-      if(SupabaseFailure.isException(e)){
+      if (SupabaseFailure.isException(e)) {
         return left(SupabaseFailure.fromException(e));
       }
       return left(SupabaseFailure(e.toString()));
@@ -32,7 +32,7 @@ class AuthRepoImp implements AuthRepo {
       final result = await remoteAuthDataSource.loginWithGoogle();
       return right(userToEntityMapper(result!));
     } catch (e) {
-      if(SupabaseFailure.isException(e)){
+      if (SupabaseFailure.isException(e)) {
         return left(SupabaseFailure.fromException(e));
       }
       return left(SupabaseFailure(e.toString()));
@@ -48,7 +48,7 @@ class AuthRepoImp implements AuthRepo {
       final result = await remoteAuthDataSource.getCurrentUser();
       return right(userToEntityMapper(result!));
     } catch (e) {
-      if(SupabaseFailure.isException(e)){
+      if (SupabaseFailure.isException(e)) {
         return left(SupabaseFailure.fromException(e));
       }
       return left(SupabaseFailure(e.toString()));
@@ -67,7 +67,7 @@ class AuthRepoImp implements AuthRepo {
       );
       return right(userToEntityMapper(result!));
     } catch (e) {
-      if(SupabaseFailure.isException(e)){
+      if (SupabaseFailure.isException(e)) {
         return left(SupabaseFailure.fromException(e));
       }
       return left(SupabaseFailure(e.toString()));
@@ -80,7 +80,24 @@ class AuthRepoImp implements AuthRepo {
       final result = await remoteAuthDataSource.registerWithGoogle();
       return right(userToEntityMapper(result!));
     } catch (e) {
-      if(SupabaseFailure.isException(e)){
+      if (SupabaseFailure.isException(e)) {
+        return left(SupabaseFailure.fromException(e));
+      }
+      return left(SupabaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> sendResetPassword({
+    required String email,
+  }) async {
+    try {
+      final result = await remoteAuthDataSource.sendForgetPasswordToken(
+        email: email,
+      );
+      return right(result);
+    } catch (e) {
+      if (SupabaseFailure.isException(e)) {
         return left(SupabaseFailure.fromException(e));
       }
       return left(SupabaseFailure(e.toString()));

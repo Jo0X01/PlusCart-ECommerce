@@ -10,8 +10,10 @@ import 'package:plus_cart/features/auth/domain/usecases/login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/register_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/register_with_google_use_case.dart';
+import 'package:plus_cart/features/auth/domain/usecases/send_reset_password_use_case.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
+import 'package:plus_cart/features/auth/presentation/view_model/reset_password_cubit/reset_password_cubit.dart';
 
 void initAuthDependencies(GetIt getIt) {
   getIt.registerLazySingleton<RemoteAuthDataSource>(
@@ -33,6 +35,7 @@ void initAuthDependencies(GetIt getIt) {
     () => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()),
   );
   getIt.registerLazySingleton(() => RegisterUseCase(getIt.get<AuthRepo>()));
+  getIt.registerLazySingleton(() => SendResetPasswordUseCase(getIt.get<AuthRepo>()));
 
   getIt.registerFactory(
     () => LoginStateCubit(
@@ -46,6 +49,11 @@ void initAuthDependencies(GetIt getIt) {
     () => RegisterStateCubit(
       registerUseCase: getIt.get<RegisterUseCase>(),
       registerWithGoogleUseCase: getIt.get<RegisterWithGoogleUseCase>(),
+    ),
+  );
+  getIt.registerFactory(
+    () => ResetPasswordCubit(
+      sendResetPasswordUseCase: getIt.get<SendResetPasswordUseCase>(),
     ),
   );
 }
