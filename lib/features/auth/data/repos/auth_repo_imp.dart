@@ -92,9 +92,47 @@ class AuthRepoImp implements AuthRepo {
     required String email,
   }) async {
     try {
-      final result = await remoteAuthDataSource.sendForgetPasswordToken(
+      final result = await remoteAuthDataSource.sendForgetPasswordOtpToken(
         email: email,
       );
+      return right(result);
+    } catch (e) {
+      if (SupabaseFailure.isException(e)) {
+        return left(SupabaseFailure.fromException(e));
+      }
+      return left(SupabaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verfiyOtpCode({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      final result = await remoteAuthDataSource.verfiyOtpToken(
+        email: email,
+        code: code,
+      );
+
+      return right(result);
+    } catch (e) {
+      if (SupabaseFailure.isException(e)) {
+        return left(SupabaseFailure.fromException(e));
+      }
+      return left(SupabaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updatePassword({
+    required String password,
+  }) async {
+    try {
+      final result = await remoteAuthDataSource.updatePassword(
+        password: password,
+      );
+
       return right(result);
     } catch (e) {
       if (SupabaseFailure.isException(e)) {

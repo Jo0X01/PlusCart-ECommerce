@@ -1,21 +1,32 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OtpCodeCustomWidget extends StatefulWidget {
   const OtpCodeCustomWidget({
     super.key,
+    required this.controller,
     required this.length,
-    required this.onCompleted,
+    required this.onResend,
+    required this.title,
+    required this.resendSubtitle,
+    this.onCompleted,
     this.boxSize,
     this.focusColor = Colors.blue,
     this.unfocusColor = Colors.grey,
+    this.resendCooldownSeconds = 60,
   });
 
+  final String? title;
+  final String? resendSubtitle;
+  final TextEditingController controller;
   final int length;
-  final ValueChanged<String> onCompleted;
+  final VoidCallback onResend;
+  final ValueChanged<bool>? onCompleted;
   final double? boxSize;
   final Color focusColor;
   final Color unfocusColor;
+  final int resendCooldownSeconds;
 
   @override
   State<OtpCodeCustomWidget> createState() => _OtpCodeCustomWidgetState();
@@ -24,6 +35,8 @@ class OtpCodeCustomWidget extends StatefulWidget {
 class _OtpCodeCustomWidgetState extends State<OtpCodeCustomWidget> {
   late List<TextEditingController> codes;
   late List<FocusNode> nodes;
+  Timer? _timer;
+  late int _secondsLeft;
 
   @override
   void initState() {
@@ -46,10 +59,39 @@ class _OtpCodeCustomWidgetState extends State<OtpCodeCustomWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) nodes.first.requestFocus();
     });
+
+    _startResendTimer();
+  }
+
+  void _startResendTimer() {
+    _timer?.cancel();
+    setState(() => _secondsLeft = widget.resendCooldownSeconds);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      if (_secondsLeft <= 1) {
+        timer.cancel();
+        setState(() => _secondsLeft = 0);
+      } else {
+        setState(() => _secondsLeft--);
+      }
+    });
+  }
+
+  void _handleResend() {
+    widget.onResend();
+    for (final c in codes) {
+      c.clear();
+    }
+    widget.controller.clear();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) nodes.first.requestFocus();
+    });
+    _startResendTimer();
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     for (final code in codes) {
       code.dispose();
     }
@@ -61,27 +103,62 @@ class _OtpCodeCustomWidgetState extends State<OtpCodeCustomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final spacing = 10.0;
-        final calculatedSize =
-            widget.boxSize ??
-            ((constraints.maxWidth - spacing * (widget.length - 1)) /
-                    widget.length)
-                .clamp(40.0, 60.0);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final spacing = 10.0;
+            final calculatedSize =
+                widget.boxSize ??
+                ((constraints.maxWidth - spacing * (widget.length - 1)) /
+                        widget.length)
+                    .clamp(40.0, 60.0);
 
-        return Wrap(
-          spacing: spacing,
-          runSpacing: spacing,
-          alignment: WrapAlignment.spaceAround,
-          runAlignment: WrapAlignment.spaceAround,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: List.generate(
-            widget.length,
-            (index) => _textField(index, calculatedSize),
-          ),
-        );
-      },
+            return Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              alignment: WrapAlignment.spaceAround,
+              runAlignment: WrapAlignment.spaceAround,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: List.generate(
+                widget.length,
+                (index) => _textField(index, calculatedSize),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+        _resendText(),
+      ],
+    );
+  }
+
+  Widget _resendText() {
+    final canResend = _secondsLeft <= 0;
+    return GestureDetector(
+      onTap: canResend ? _handleResend : null,
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(text: widget.title,style: TextStyle(
+                color: widget.focusColor,
+                fontSize: 12
+              ),),
+            TextSpan(
+              text: canResend
+                  ? widget.resendSubtitle
+                  : "${widget.resendSubtitle} (${_secondsLeft}s)",
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                color: canResend ? widget.focusColor : widget.unfocusColor,
+                fontSize: 12
+              ),
+            ),
+          ],
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
@@ -103,7 +180,7 @@ class _OtpCodeCustomWidgetState extends State<OtpCodeCustomWidget> {
         keyboardType: TextInputType.number,
         cursorColor: Colors.transparent,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        maxLength: widget.length, // allow full paste to land here temporarily
+        maxLength: widget.length,
         enableSuggestions: false,
         onChanged: (value) => _handleChange(index, value),
         onTap: () {
@@ -131,7 +208,6 @@ class _OtpCodeCustomWidgetState extends State<OtpCodeCustomWidget> {
       _distributePastedCode(value);
       return;
     }
-
     if (value.isNotEmpty) {
       _goToNextField(index);
     }
@@ -165,8 +241,7 @@ class _OtpCodeCustomWidgetState extends State<OtpCodeCustomWidget> {
 
   void _checkCompletion() {
     final code = codes.map((c) => c.text).join();
-    if (code.length == widget.length) {
-      widget.onCompleted(code);
-    }
+    widget.controller.text = code;
+    widget.onCompleted?.call(code.length == widget.length);
   }
 }

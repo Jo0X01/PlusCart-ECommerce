@@ -14,4 +14,6 @@ abstract class AuthRepo {
 
 
   Future<Either<Failure,void>> sendResetPassword({required String email});
+  Future<Either<Failure,void>> verfiyOtpCode({required String email,required String code});
+  Future<Either<Failure,void>> updatePassword({required String password});
 }

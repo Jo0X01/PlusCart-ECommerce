@@ -12,11 +12,6 @@ final class CheckInputState extends LoginState {
   CheckInputState({required this.isEmailValid, required this.isPasswordValid});
 }
 
-final class AlreadyLoggedInState extends LoginState {
-  final UserEntity user;
-  AlreadyLoggedInState(this.user);
-}
-
 final class LoginSuccessState extends LoginState {
   final UserEntity user;
   LoginSuccessState(this.user);

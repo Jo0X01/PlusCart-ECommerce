@@ -68,8 +68,26 @@ class RemoteAuthDataSourceImp implements RemoteAuthDataSource {
     );
     return result.user;
   }
+
   @override
-  Future<void> sendForgetPasswordToken({required String email}) async {
+  Future<void> sendForgetPasswordOtpToken({required String email}) async {
     await supabaseService.auth.resetPasswordForEmail(email);
+  }
+
+  @override
+  Future<void> verfiyOtpToken({
+    required String email,
+    required String code,
+  }) async {
+    await supabaseService.auth.verifyOTP(
+      email: email,
+      token: code,
+      type: OtpType.recovery,
+    );
+  }
+
+  @override
+  Future<void> updatePassword({required String password}) async {
+    await supabaseService.auth.updateUser(UserAttributes(password: password));
   }
 }

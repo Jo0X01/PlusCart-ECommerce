@@ -89,8 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is LoginFailureState) {
           AppDialogs.showSnackBar(context, msg: state.msg);
-        } else if (state is LoginSuccessState ||
-            state is AlreadyLoggedInState) {
+        } else if (state is LoginSuccessState) {
           context.go(AppRoutes.homeScreen);
         }
       },

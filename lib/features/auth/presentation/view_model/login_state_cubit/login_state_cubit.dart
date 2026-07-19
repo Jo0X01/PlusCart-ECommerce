@@ -21,16 +21,6 @@ class LoginStateCubit extends Cubit<LoginState> {
     required this.checkLoginUseCase,
   }) : super(LoginInitialState());
 
-  Future<void> isLoggedIn() async {
-    final result = await checkLoginUseCase.call();
-    result.fold(
-      (error) => emit(LoginFailureState(error.errorMsg)),
-      (result) => emit(
-        result == null ? LoginInitialState() : AlreadyLoggedInState(result),
-      ),
-    );
-  }
-
   Future<void> login({required String email, required String password}) async {
     emit(LoginLoadingState());
     final result = await loginUseCase.call(

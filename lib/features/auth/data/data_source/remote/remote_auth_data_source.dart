@@ -13,5 +13,7 @@ abstract class RemoteAuthDataSource {
     required String password,
   });
   Future<User?> registerWithGoogle();
-  Future<void> sendForgetPasswordToken({required String email});
+  Future<void> sendForgetPasswordOtpToken({required String email});
+  Future<void> verfiyOtpToken({required String email,required String code});
+  Future<void> updatePassword({required String password});
 }

@@ -10,7 +10,9 @@ import 'package:plus_cart/features/auth/domain/usecases/login_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/login_with_google_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/register_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/register_with_google_use_case.dart';
+import 'package:plus_cart/features/auth/domain/usecases/reset_password_verfiy_otp_use_case.dart';
 import 'package:plus_cart/features/auth/domain/usecases/send_reset_password_use_case.dart';
+import 'package:plus_cart/features/auth/domain/usecases/update_password_use_case.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/reset_password_cubit/reset_password_cubit.dart';
@@ -22,27 +24,23 @@ void initAuthDependencies(GetIt getIt) {
       googleSignInService: getIt.get<GoogleSignInService>(),
     ),
   );
-  getIt.registerLazySingleton<AuthRepo>(
-    () => AuthRepoImp(remoteAuthDataSource: getIt.get<RemoteAuthDataSource>()),
-  );
+  getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImp(remoteAuthDataSource: getIt.get<RemoteAuthDataSource>()),);
 
   getIt.registerLazySingleton(() => LoginUseCase(getIt.get<AuthRepo>()));
   getIt.registerLazySingleton(() => CheckLoginUseCase(getIt.get<AuthRepo>()));
-  getIt.registerLazySingleton(
-    () => LoginWithGoogleUseCase(getIt.get<AuthRepo>()),
-  );
-  getIt.registerLazySingleton(
-    () => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()),
-  );
+  getIt.registerLazySingleton(() => LoginWithGoogleUseCase(getIt.get<AuthRepo>()),);
+  getIt.registerLazySingleton(() => RegisterWithGoogleUseCase(getIt.get<AuthRepo>()),);
   getIt.registerLazySingleton(() => RegisterUseCase(getIt.get<AuthRepo>()));
   getIt.registerLazySingleton(() => SendResetPasswordUseCase(getIt.get<AuthRepo>()));
+  getIt.registerLazySingleton(() => ResetPasswordVerfiyOtpUseCase(getIt.get<AuthRepo>()));
+  getIt.registerLazySingleton(() => UpdatePasswordUseCase(getIt.get<AuthRepo>()));
 
   getIt.registerFactory(
     () => LoginStateCubit(
       loginWithGoogleUseCase: getIt.get<LoginWithGoogleUseCase>(),
       loginUseCase: getIt.get<LoginUseCase>(),
       checkLoginUseCase: getIt.get<CheckLoginUseCase>(),
-    )..isLoggedIn(),
+    ),
   );
 
   getIt.registerFactory(
@@ -54,6 +52,8 @@ void initAuthDependencies(GetIt getIt) {
   getIt.registerFactory(
     () => ResetPasswordCubit(
       sendResetPasswordUseCase: getIt.get<SendResetPasswordUseCase>(),
+      verfiyOtpUseCase: getIt.get<ResetPasswordVerfiyOtpUseCase>(),
+      updatePasswordUseCase: getIt.get<UpdatePasswordUseCase>()
     ),
   );
 }
