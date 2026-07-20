@@ -23,8 +23,7 @@ class RemoteAuthDataSourceImp implements RemoteAuthDataSource {
 
   @override
   Future<User?> loginWithGoogle() async {
-    final googleUser = await googleSignInService.auth();
-    final idToken = googleUser.authentication.idToken;
+    final idToken = await googleSignInService.authAndGetIdToken();
     if (idToken == null) throw 'No ID token found.';
     await supabaseService.auth.signInWithIdToken(
       provider: OAuthProvider.google,
@@ -69,15 +68,11 @@ class RemoteAuthDataSourceImp implements RemoteAuthDataSource {
     required String email,
     required String code,
   }) async {
-    await supabaseService.auth.verifyOTP(
-      email: email,
-      token: code,
-      type: OtpType.recovery,
-    );
+    await supabaseService.verfiyOtpCode(email: email, code: code);
   }
 
   @override
   Future<void> updatePassword({required String password}) async {
-    await supabaseService.auth.updateUser(UserAttributes(password: password));
+    await supabaseService.updateUserInfo(password: password);
   }
 }

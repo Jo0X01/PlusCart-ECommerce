@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:plus_cart/core/services/google_sign_in_service.dart';
 import 'package:plus_cart/core/services/supabase_service.dart';
 import 'package:plus_cart/features/auth/di/auth_injection.dart';
+import 'package:plus_cart/features/onboarding/di/startup_injection.dart';
 import 'package:plus_cart/firebase_options.dart';
 import 'package:plus_cart/core/bloc/simple_bloc_observer.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,4 +34,5 @@ Future<void> appInit() async {
   getIt.registerSingleton<GoogleSignInService>(googleSignInService);
 
   initAuthDependencies(getIt);
+  initStartupDependencies(getIt);
 }
