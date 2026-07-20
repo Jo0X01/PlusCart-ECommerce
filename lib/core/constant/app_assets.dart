@@ -1,7 +1,15 @@
+
+abstract class AppImages {
+  static const String appLogoLight = "assets/images/app-logo.png";
+  static const String appLogoDark = "assets/images/app-logo.png";
+  static const String splashEffect = "assets/images/splash_effect.png";
+  static const String onBoardingBackground = "assets/images/onboarding_background.png";
+}
 abstract class AppIcons {
   static const String address = 'assets/icons/Address.svg';
   static const String appLogo = 'assets/icons/app-logo.svg';
   static const String arrow = 'assets/icons/Arrow.svg';
+  static const String arrowRight = 'assets/icons/arrow-right.svg';
   static const String bag = 'assets/icons/Bag.svg';
   static const String bellDuotone = 'assets/icons/Bell-duotone.svg';
   static const String bell = 'assets/icons/Bell.svg';
