@@ -7,8 +7,8 @@ import 'package:plus_cart/features/auth/presentation/view/screens/reset_password
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/reset_password_cubit/reset_password_cubit.dart';
+import 'package:plus_cart/features/home/presentation/view/screens/home_screen.dart';
 import 'package:plus_cart/features/onboarding/presentation/view/screens/startup_screen.dart';
-
 
 abstract class AppRoutes {
   static const startUpScreen = "/startup";
@@ -19,7 +19,7 @@ abstract class AppRoutes {
 }
 
 final appRoutes = GoRouter(
-  initialLocation: AppRoutes.startUpScreen,
+  initialLocation: AppRoutes.homeScreen,//.startUpScreen,
   routes: [
     GoRoute(
       path: AppRoutes.startUpScreen,

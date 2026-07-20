@@ -3,6 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:plus_cart/core/services/env_service.dart';
 import 'package:plus_cart/core/services/google_sign_in_service.dart';
 import 'package:plus_cart/core/services/supabase_service.dart';
 import 'package:plus_cart/features/auth/di/auth_injection.dart';
@@ -14,10 +15,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 final getIt = GetIt.instance;
 
 Future<void> appInit() async {
-  await dotenv.load();
   Bloc.observer = SimpleBlocObserver();
+  final envService = EnvService();
   final supabaseService = SupabaseService();
   final googleSignInService = GoogleSignInService();
+
+
+  await envService.init();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -33,6 +37,6 @@ Future<void> appInit() async {
   getIt.registerSingleton<SupabaseService>(supabaseService);
   getIt.registerSingleton<GoogleSignInService>(googleSignInService);
 
-  initAuthDependencies(getIt);
   initStartupDependencies(getIt);
+  initAuthDependencies(getIt);
 }
