@@ -7,12 +7,11 @@ import 'package:plus_cart/features/auth/presentation/view/screens/reset_password
 import 'package:plus_cart/features/auth/presentation/view_model/login_state_cubit/login_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/register_state_cubit/register_state_cubit.dart';
 import 'package:plus_cart/features/auth/presentation/view_model/reset_password_cubit/reset_password_cubit.dart';
-import 'package:plus_cart/features/onboarding/presentation/view/screens/onboarding_screen.dart';
-import 'package:plus_cart/features/onboarding/presentation/view/screens/splash_screen.dart';
+import 'package:plus_cart/features/onboarding/presentation/view/screens/startup_screen.dart';
+
 
 abstract class AppRoutes {
-  static const splashScreen = "/splash";
-  static const onBoardingScreen = "/onboarding";
+  static const startUpScreen = "/startup";
   static const loginScreen = "/login";
   static const registerScreen = "/register";
   static const frogetPasswordScreen = "/forget-password";
@@ -20,15 +19,11 @@ abstract class AppRoutes {
 }
 
 final appRoutes = GoRouter(
-  initialLocation: AppRoutes.splashScreen,
+  initialLocation: AppRoutes.startUpScreen,
   routes: [
     GoRoute(
-      path: AppRoutes.splashScreen,
-      builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.onBoardingScreen,
-      builder: (context, state) => const OnboardingScreen(),
+      path: AppRoutes.startUpScreen,
+      builder: (context, state) => const StartupScreen(),
     ),
     GoRoute(
       path: AppRoutes.loginScreen,

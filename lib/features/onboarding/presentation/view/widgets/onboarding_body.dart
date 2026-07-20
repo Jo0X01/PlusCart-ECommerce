@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:plus_cart/core/constant/app_assets.dart';
 import 'package:plus_cart/core/constant/app_routes.dart';
 import 'package:plus_cart/shared/widgets/action_button_custom_widget.dart';
 
-class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({super.key});
+class OnBoardingBody extends StatelessWidget {
+  const OnBoardingBody({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

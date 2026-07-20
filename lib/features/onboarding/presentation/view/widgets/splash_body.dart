@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:plus_cart/core/constant/app_assets.dart';
-import 'package:plus_cart/core/constant/app_routes.dart';
 import 'package:plus_cart/core/theme/app_colors.dart';
 import 'package:plus_cart/shared/widgets/app_loading_indicator.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashBody extends StatelessWidget {
+  const SplashBody({super.key, required this.onTimeoutDone});
+
+  final void Function(BuildContext) onTimeoutDone;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,8 @@ class SplashScreen extends StatelessWidget {
                   width: 32,
                   height: 32,
                   child: AppLoadingIndicator(
-                    timeout: Duration(seconds: 3),
-                    onTimeoutDone: (context) {
-                      context.go(AppRoutes.onBoardingScreen);
-                    },
+                    timeout: Duration(seconds: 4),
+                    onTimeoutDone: onTimeoutDone,
                   ),
                 ),
               ),
