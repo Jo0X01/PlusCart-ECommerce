@@ -1,8 +1,9 @@
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInService {
-  Future<void> init({required String clientId}) async {
+  static Future<GoogleSignInService> init({required String clientId}) async {
     await GoogleSignIn.instance.initialize(serverClientId: clientId);
+    return GoogleSignInService();
   }
 
   Future<GoogleSignInAccount> auth() async =>
