@@ -46,5 +46,59 @@ final appRoutes = GoRouter(
         child: const ResetPasswordScreen(),
       ),
     ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) => NavigationShell(
+        navigationShell: navigationShell,
+        items: {
+          "Home": AppIcons.home,
+          "Search": AppIcons.search,
+          "Saved": AppIcons.heart,
+          "Cart": AppIcons.cart,
+          "Account": AppIcons.user,
+        },
+      ),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.homeScreen,
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.searchScreen,
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.savedScreen,
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.cartScreen,
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.accountScreen,
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+      ],
+    ),
   ],
 );
