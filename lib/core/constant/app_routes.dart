@@ -88,7 +88,6 @@ final appRoutes = GoRouter(
             ),
           ],
         ),
-
         StatefulShellBranch(
           routes: [
             GoRoute(

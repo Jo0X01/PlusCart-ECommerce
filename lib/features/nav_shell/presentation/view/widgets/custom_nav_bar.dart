@@ -74,6 +74,8 @@ class CustomBottomNavBar extends StatelessWidget {
         child: Wrap(
           spacing: iconSpacing ?? 0.0,
           alignment: WrapAlignment.spaceAround,
+          runSpacing: iconSpacing ?? 0.0,
+          runAlignment: WrapAlignment.spaceAround,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: List.generate(entries.length, (index) {
             final label = entries[index].key;
