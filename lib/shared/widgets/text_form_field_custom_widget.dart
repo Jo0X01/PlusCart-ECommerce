@@ -20,9 +20,15 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
     this.onSubmit,
     this.realtimeChange,
     this.onValidationChanged,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.icon,
+    this.contentPadding = const EdgeInsets.all(15),
+    this.onSuffixTap,
     super.key,
   });
 
+  final EdgeInsets contentPadding;
   final bool? realtimeChange;
   final TextInputType keyboardType;
   final String? hintText;
@@ -33,10 +39,14 @@ class TextFormFieldWithLabelCustomWidget extends StatefulWidget {
   final void Function(bool)? onValidationChanged;
   final void Function(String value)? onChanged;
   final void Function()? onSubmit;
+  final VoidCallback? onSuffixTap;
   final String? labelText;
   final bool? isTextBox;
   final bool? enabled;
   final bool? hidden;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final Widget? icon;
 
   @override
   State<TextFormFieldWithLabelCustomWidget> createState() =>
@@ -109,15 +119,16 @@ class _TextFormFieldWithLabelCustomWidgetState
               mainAxisSize: MainAxisSize.min,
               spacing: 4,
               children: [
-                SvgPicture.asset(
-                  _isValid == true ? AppIcons.check1 : AppIcons.warningCircle,
-                  width: 15,
-                  height: 15,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.error,
-                    BlendMode.srcIn,
+                if (_isValid != null)
+                  SvgPicture.asset(
+                    _isValid == true ? AppIcons.check1 : AppIcons.warningCircle,
+                    width: 15,
+                    height: 15,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.error,
+                      BlendMode.srcIn,
+                    ),
                   ),
-                ),
                 Expanded(
                   child: Text(
                     errorText,
@@ -129,15 +140,18 @@ class _TextFormFieldWithLabelCustomWidgetState
             );
           },
           decoration: InputDecoration(
+            icon: widget.icon,
+            suffixIcon: _getIcon(),
+            prefixIcon: widget.prefixIcon,
             hintText: widget.hintText,
+            contentPadding: widget.contentPadding,
+            alignLabelWithHint: true,
             hintStyle: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
               overflow: TextOverflow.ellipsis,
             ),
-            suffixIcon: _getIcon(),
-            contentPadding: const EdgeInsets.all(15),
             enabledBorder: _border(
               color: _isValid == true ? AppColors.success : AppColors.divider,
             ),
@@ -162,6 +176,11 @@ class _TextFormFieldWithLabelCustomWidgetState
 
   Widget? _getIcon() {
     List<Widget> icons = [];
+    if (widget.suffixIcon != null) {
+      icons.add(
+        GestureDetector(onTap: widget.onSuffixTap, child: widget.suffixIcon),
+      );
+    }
     if (widget.isPassword) {
       icons.add(
         IconButton(
@@ -189,6 +208,7 @@ class _TextFormFieldWithLabelCustomWidgetState
         ),
       );
     }
+    if (icons.isEmpty) return null;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(mainAxisSize: MainAxisSize.min, spacing: 4, children: icons),

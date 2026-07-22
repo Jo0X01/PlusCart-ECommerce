@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plus_cart/core/constant/app_assets.dart';
 import 'package:plus_cart/core/theme/app_text_style.dart';
 import 'package:plus_cart/shared/widgets/icon_with_counter_badge_custom_widget.dart';
+import 'package:plus_cart/shared/widgets/search_bar_custom_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,7 +12,11 @@ class HomeScreen extends StatelessWidget {
     return Column(
       children: [
         HomeTopBar(),
-        
+        SearchBarCustomWidget(
+          enableVoice: true,
+          enableFilter: true,
+        ),
+
         Expanded(
           child: ListView.builder(
             itemCount: 50,
